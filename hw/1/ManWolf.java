@@ -79,20 +79,8 @@ public class ManWolf {
 
   public static void main(String[] args) {
     ManWolf mw = new ManWolf();
-    String test = "gggncgwng";
-    for(int i = 0; i < test.length(); i++) {
-      mw.transition(test.charAt(i));
-    }
-    if(mw.finished()) {
-      System.out.println("Done!!");
-    }
-
-    test = "gggncgwngg";
-    for(int i = 0; i < test.length(); i++) {
-      mw.transition(test.charAt(i));
-    }
-    if(!mw.finished()) {
-      System.out.println("not Done!!");
+    for(State s : State.values()) {
+      System.out.println(s + " " + Arrays.toString(mw.delta[s.ordinal()]));
     }
   }
 }
