@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 public class Player {
 
-//  String positionMatch = "X[0-2]{2}(?:O[0-2]{2}X[0-2]{2})*O([0-2][0-2])"; // Alphabet
   final static State START = State.X00;
   EnumMap<State, State[][]> delta;
   Set<State> accepting;
+  Set<State> draw;
   State current;
   
   public Player() {
@@ -129,16 +129,26 @@ public class Player {
       {State.ERR, State.X00O11X22O10X12O02X20O21X01, State.ERR}}); // X00O11X22O10X12O02X20O21X01
     accepting = new HashSet<>();
     accepting.add(State.ERR);
+    draw = new HashSet<>();
+    draw.add(State.X00O11X22O01X21O20X02O12X10);
+    draw.add(State.X00O11X22O12X10O20X02O01X21);
+    draw.add(State.X00O11X22O21X10O02X20O10X12);
+    draw.add(State.X00O11X22O10X12O02X20O21X01);
+    State [][] errorMatrix = new State[][]{{State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}};
     for(State[][] stateM : delta.values()) {
       for(State[] stateA : stateM) {
         for(State value : stateA) {
           if(!delta.keySet().contains(value)) {
-            delta.put(value, new State[][]{{State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}});
+            delta.put(value, errorMatrix);
             accepting.add(value);
           }
         }
       }
     }
+  }
+
+  boolean draw() {
+    return draw.contains(current);
   }
   
   void transition(int[] rowCol) {

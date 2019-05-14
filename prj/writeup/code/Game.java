@@ -11,6 +11,11 @@ public class Game {
       player.transition(validate(in.next()));
     }
     System.out.println("Game completed at state: \n\t" + player.current);
+    if(player.draw()) {
+      System.out.println("Its a draw");
+    } else {
+      System.out.println("You lose");
+    } 
   }
   
   static void printState(State current) {

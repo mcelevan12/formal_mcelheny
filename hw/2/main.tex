@@ -1,0 +1,65 @@
+\documentclass[letter, 12pt]{article}
+\usepackage{comment} % enables the use of multi-line comments (\ifx \fi) 
+\usepackage{lipsum} %This package just generates Lorem Ipsum filler text. 
+\usepackage{graphicx}
+\usepackage{fullpage} % changes the margin
+\usepackage{natbib}
+\usepackage{braket}
+\usepackage{amsmath}
+\bibliographystyle{abbrvnat}
+\setcitestyle{authoryear,open={(},close={)}}
+
+\begin{document}
+%Update this information!!!!
+\noindent
+\large\textbf{CMPT 440 -- Spring 2019: Quantum Finite Automata} \\ \\
+\textbf{Evan McElheny} \\
+\normalsize   Due Date: 1/5/2019
+
+
+\section*{Preliminaries}
+We assume a general understanding on linear algebra and howquantum states are represented in bra-ket notation.  We also assume a general understanding of DFA's.
+\section{Formal Definition}
+We will focous on measure once QFA's as they are easier to understand then other types of QFA's.  Measure once Quantum Finite Automata (MO-QFA's) are defined in the following 5 tuple: $M = (Q, \Theta, \ket{q0}, Q_a)$ \cite{1way}.  Where $Q$ is the set of quantum orthogonal states, $\Sigma$ is the language, $\ket{q0}$ is the starting state, $Q_a \subset Q$ is the accepting states, and $\Theta$ is a transition function defined as for each $\sigma \in \Sigma$ there is a unitary transformation $\Theta_\sigma$ on the Hilbert space spanned by the states in $Q$.  From this definition we can construct QFA's that can outperform standard DFA's in both size and in possible error (compared to PFA's).
+For the following examples we will define a language $\Sigma$ as $\{a\}$ and unitary matrix for such an input as:
+\begin{align}
+U_\sigma \ket{q0} &\rightarrow cos\theta \ket{q0} + sin\theta \ket{q1} \\
+U_\sigma \ket{q1} &\rightarrow -sin\theta \ket{q0} + cos\theta \ket{q1}
+\end{align}
+\section{Smaller Size}
+As an example we will use promise problems.  Promise problems are ones where there are disjoint sets $P_yes, P_no$ where the QFA always accepts all states in $Q_yes$ and always rejects all states in $Q_no$.  For any $k > 0$ we can construct a problem $EVENODD^k$.  We will define $P_{yes}^k = \{a^{j2^{k}} : j = 2m\}$ and $P_{no}^k = \{a^{j2^{k}} : j = 2m + 1\}$.  This example was from \cite{moddern}.  With the unitary matrix defined above and $\theta = \frac{\pi}{2^k + 1}$ we only need two states $\ket{q0}$, and $\ket{q1}$.  On the other hand according to \cite{promise} we would need $2^{k + 1}$ states in order to solve the same problem on a DFA.  
+\section{Bounded Error}
+Consider the problem $MOD^p$ for some prime number $p$.  Any PFA that has a bounded error needs at least $p$ states.  If we pick $\theta = \frac{2\pi}{p}$ we accept each correct state exactly and accept all other states with a probability of less then one.  This false positive acceptance probability is bound by 
+$$
+cos^2(\frac{\pi}{p}) = 1 - sin^2(\frac{\pi}{p})
+$$
+Which clearly grows to one as $p$ gets larger.  However, you can get a O(log$p$) state machine for a bounded error by composing it of several smaller machines.  Therefore it is much faster then a PFA \cite{moddern}.    
+
+
+
+
+
+%=============================================
+\bibliographystyle{acl}
+\bibliography{Cites.bib}
+
+\end{document}
+
+
+\ifx
+Comments!
+\fi
+
+% ===========
+
+\ifx
+
+%==============
+
+% References if you want it manual
+
+% \bibitem{Robotics} Fred G. Martin \emph{Robotics Explorations: A Hands-On Introduction to Engineering}. New Jersey: Prentice Hall.
+
+% \bibitem{Flueck}  Flueck, Alexander J. 2005. \emph{ECE 100}[online]. Chicago: Illinois Institute of Technology, Electrical and Computer Engineering Department, 2005 [cited 30
+% August 2005]. Available from World Wide Web: (http://www.ece.iit.edu/~flueck/ece100).
+
