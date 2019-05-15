@@ -127,23 +127,30 @@ public class Player {
       {State.ERR, State.X00O11X22O10X12O02X20O01X21, State.ERR},
       {State.ERR, State.ERR, State.ERR},
       {State.ERR, State.X00O11X22O10X12O02X20O21X01, State.ERR}}); // X00O11X22O10X12O02X20O21X01
+    State [][] errorMatrix = new State[][]{{State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}};
+    delta.put(State.ERR, errorMatrix);
     accepting = new HashSet<>();
-    accepting.add(State.ERR);
+    for(State value : State.values()){
+      if(!delta.keySet().contains(value)) {
+        delta.put(value, errorMatrix);
+        accepting.add(value);
+      }
+    }
     draw = new HashSet<>();
     draw.add(State.X00O11X22O01X21O20X02O12X10);
     draw.add(State.X00O11X22O12X10O20X02O01X21);
     draw.add(State.X00O11X22O21X10O02X20O10X12);
     draw.add(State.X00O11X22O10X12O02X20O21X01);
-    State [][] errorMatrix = new State[][]{{State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}, {State.ERR, State.ERR, State.ERR}};
-    for(State[][] stateM : delta.values()) {
-      for(State[] stateA : stateM) {
-        for(State value : stateA) {
-          if(!delta.keySet().contains(value)) {
-            delta.put(value, errorMatrix);
-            accepting.add(value);
-          }
-        }
-      }
+  }
+  
+  public static int[] validate(String input) {
+    if(input.length() == 3 && input.charAt(0) == 'O') {
+      int[] rowCol = new int[2];
+      rowCol[0] = Integer.parseInt(input.substring(1,2));
+      rowCol[1] = Integer.parseInt(input.substring(2,3));
+      return rowCol;
+    } else {
+      throw new IllegalArgumentException("Invalid input.  Only valid input follows the format O[row][col]");
     }
   }
 
@@ -156,7 +163,7 @@ public class Player {
   }
   
   boolean isDone() {
-    return !accepting.contains(current);
+    return accepting.contains(current);
   }
   
 }
